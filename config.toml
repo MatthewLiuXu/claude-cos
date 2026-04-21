@@ -1,0 +1,14 @@
+[scan]
+prompt_file = "inbox-scan.md"
+max_retries = 2
+retry_delay_seconds = 10
+timeout_seconds = 300
+
+[logging]
+log_dir = "logs"
+retention_days = 30
+verbose = false
+
+[claude]
+command = "claude"
+extra_args = []

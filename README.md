@@ -23,21 +23,43 @@ An automated personal chief-of-staff powered by Claude Code. It scans your Gmail
 - **Gmail** — Search and read (never sends email)
 - **Notion** — Search, create, and update pages in a "Tasks" database
 
+## Setup
+
+**Requirements:** Python 3.11+, [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with Gmail and Notion MCP servers configured.
+
+1. Clone the repo
+2. Edit `config.toml` to adjust settings (defaults work out of the box)
+3. Ensure Claude Code has the required MCP permissions (see `.claude/settings.local.json`)
+
+## Usage
+
+```bash
+# Run a full inbox scan
+python cos.py scan
+
+# Preview what would happen without creating tasks
+python cos.py scan --dry-run
+
+# See full agent output
+python cos.py scan --verbose
+
+# View recent scan history
+python cos.py logs
+python cos.py logs --last 10
+
+# Show effective configuration
+python cos.py config
+```
+
+The CLI handles retries on transient failures, enforces a timeout, and saves structured JSON logs to `logs/` for every run.
+
 ## Files
 
 | File | Purpose |
 |------|---------|
+| `cos.py` | CLI orchestrator — run scans, view logs, manage config |
+| `config.toml` | Scan settings (retries, timeout, log retention) |
 | `inbox-scan.md` | Full agent prompt for the inbox scan workflow |
 | `inbox-scan-spec.md` | Concise specification of the scan phases |
 | `priority-framework.md` | Priority definitions (P1-P4) |
 | `last-scan-timestamp.json` | Tracks the last scan time for incremental processing |
-
-## Usage
-
-Run the inbox scan agent via Claude Code:
-
-```bash
-claude -p inbox-scan.md
-```
-
-Or schedule it to run automatically on a cron interval.
